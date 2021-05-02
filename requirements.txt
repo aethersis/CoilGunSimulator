@@ -1,0 +1,4 @@
+pyltspice
+numpy
+pyfemm
+matplotlib
