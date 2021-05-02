@@ -30,6 +30,7 @@ class SimulationParameters:
     projectile_density_g_mm3 = 0.00768
     projectile_length_mm: float = 25
     projectile_initial_position_mm: float = 1
+    initial_velocity_m_s: float = 0.0
 
 
 @dataclass
@@ -178,7 +179,7 @@ class FEMMModel:
         self._set_projectile_diameter(self._params.projectile_diameter_mm)
         self._center_projectile(self._params.coil_length_mm)
         self._move_projectile(-self._params.projectile_initial_position_mm)
-        current_acceleration = 0.0
+        current_velocity = self._params.initial_velocity_m_s
 
         self._compute_coil_current()
 
@@ -203,21 +204,21 @@ class FEMMModel:
             femm.mo_groupselectblock(self._projectile_base_group)
             fz = femm.mo_blockintegral(19)
 
-            current_acceleration += fz / self._calculate_projectile_mass_kg()
+            current_velocity += fz / self._calculate_projectile_mass_kg() * self._dt
             self._times.append(t)
-            self._velocities.append(current_acceleration * self._dt)
+            self._velocities.append(current_velocity)
             self._energies.append(
-                (current_acceleration * self._dt) ** 2
+                current_velocity ** 2
                 * self._calculate_projectile_mass_kg()
                 * 0.5
             )
 
-            if self._check_stop_criterion():
+            #if self._check_stop_criterion():
                 # Change in velocity below threshold. No point in computing further.
-                break
+            #    break
 
             # double integrate acceleration over time
-            displacement = current_acceleration * self._dt ** 2 * 1000
+            displacement = current_velocity * self._dt * 1000
             self._move_projectile(displacement)
 
         femm.closefemm()

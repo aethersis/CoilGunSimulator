@@ -12,13 +12,14 @@ base_params = SimulationParameters(
     projectile_diameter_mm=6.5,
     wire_without_insulation_thickness_mm=1.0,
     wire_with_insulation_thickness_mm=1.07,
-    capacitance_uF=500.0,
+    capacitance_uF=1000.0,
     capacitor_ESR_ohm=0.09,
-    capacitor_voltage_V=370,
-    coil_length_mm=24,
-    coil_layers_count=5,
-    projectile_length_mm=30,
-    projectile_initial_position_mm=8,
+    capacitor_voltage_V=400,
+    coil_length_mm=35,
+    coil_layers_count=6,
+    projectile_length_mm=25,
+    projectile_initial_position_mm=10,
+    initial_velocity_m_s=0
 )
 
 
@@ -56,7 +57,7 @@ def plot_velocity(results: SimulationResult):
 
 
 def run_femm(params: SimulationParameters):
-    s = FEMMModel(constraints=params, circuit_model=circuit_model, femm_file="models/femm/coilgun.fem")
+    s = FEMMModel(constraints=params, circuit_model=circuit_model, femm_file="models/femm/coilgun_iron_clad.fem")
     return params, s.simulate()
 
 
