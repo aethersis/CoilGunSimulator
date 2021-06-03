@@ -1,6 +1,8 @@
 # CoilGunSimulator
 A set of utilities designed to simulate various coil gun parameters and optimize the designs. Based on 5 different real-world designs, the end velocity calculation error was always &lt;10%. Unfortunately it runs only on Windows since it uses LTSPICE and FEMM. 
 
+See http://digitalghosts.blog for more details.
+
 ## Installation
 Windows 7 or newer is required. Tested with Python 3.7. 
 1. Install LtSpice on your computer from https://www.analog.com/en/design-center/design-tools-and-calculators/ltspice-simulator.html
